@@ -1,10 +1,11 @@
-// 1. DOM - komma åt element ?
+
 const sectionList = document.getElementById('sectionList')
 const sectionNew = document.getElementById('sectionNew')
 const sectionEdit = document.getElementById('sectionEdit')
 
 const submitNewButton = document.getElementById('submitNewButton')
 const submitEditButton = document.getElementById('submitEditButton')
+
 const listLink = document.getElementById('listLink')
 const newLink = document.getElementById('newLink')
 
@@ -21,26 +22,7 @@ const editBorn = document.getElementById('editBorn')
 const productTableBody = document.getElementById('productTableBody')
 const sortingTest = document.getElementById('sortingTest')
 
-//Todo ändra stefan till er egen - dvs {useremail}
 const baseApi = 'https://hockeyplayers.systementor.se/Philip/player'
-//const baseApi = 'https://fakestoreapi.com/products'
-// HTTP GET  Lista alla https://fakestoreapi.com/products
-// HTTP GET  Lista en https://fakestoreapi.com/products/4
-
-// HTTP POST Skapa en ny https://fakestoreapi.com/products 
-//                          - Skicka in ny product som JSON
-
-// HTTP PUT Uppdatera en befintlig https://fakestoreapi.com/products/4 
-//                          - Skicka in nya properties som JSON
-
-
-//Vi fortsätter från 
-// https://github.com/aspcodenet/kyhinlamninggrund
-
-//1. OOP - class Product id, name, price, color
-//2. in i items och rendera
-//3. Vi fixar NEW
-//4. Vi fixar edit
 
 class User{
     constructor(id,namn,jersey,age, born){
@@ -51,27 +33,6 @@ class User{
         this.born = born;
    }
 }
-
-
-// const prod = new Product(1,"Banan",12,"Gul")
-// console.log(prod)
-
-// prod.Stad = "Colorado"
-// console.log(prod)
-
-// let namn = "Stefan"
-
-
-// console.log({namn})
-// let id = 129
-// console.log({id})
-
-// console.log("Klar")
-
-
-
-
-
 
 function showSection(sectionsId){
     if(sectionsId == 'sectionList'){
@@ -99,20 +60,13 @@ listLink.addEventListener("click",()=>{
     showSection('sectionList');    
 });
 
-// 1. finns inte alls nån max. Finns dock en som heter Stefan som är förvirrad ;)
-// 2. Edit 
-//
 sortingTest.addEventListener("click",()=>{ 
-
     items.sort(function (a, b) {
         return b.id - a.id;
       });
-      
     console.log(items.sort());
     refreshItems();
     showSection('sectionList');
-
-    //console.log("test");
 });
 
 const searchId = document.getElementById('searchId')
@@ -155,7 +109,6 @@ searchAge.addEventListener("keyup", ()=>{
     });
 })
 
-
 const searchBorn = document.getElementById('searchBorn')
 searchBorn.addEventListener("keyup", ()=>{
     let filterList =  items.filter(item=> item.born.toLowerCase()
@@ -167,7 +120,6 @@ searchBorn.addEventListener("keyup", ()=>{
 })
 
 submitNewButton.addEventListener("click",()=>{ 
-
     const newUser = {
         namn: newNamn.value,
         jersey: newJersey.value,
@@ -182,6 +134,7 @@ submitNewButton.addEventListener("click",()=>{
         },
         body:JSON.stringify(newUser)
     };
+
     fetch(baseApi,reqParams)
         .then(res=>res.json())
         .then(json=>{
@@ -191,7 +144,6 @@ submitNewButton.addEventListener("click",()=>{
                 newJersey.value,
                 newAge.value,
                 newBorn.value)
-
             items.push(u); 
             renderTr(u);
             showSection('sectionList');    
@@ -199,7 +151,6 @@ submitNewButton.addEventListener("click",()=>{
 });
 
 submitEditButton.addEventListener("click",()=>{
-
     const changedUserValues = {
         namn: editNamn.value,
         jersey: editJersey.value,
@@ -213,13 +164,9 @@ submitEditButton.addEventListener("click",()=>{
         },
         body:JSON.stringify(changedUserValues)
     };
-
-    // 'https://fakestoreapi.com/products/7
-
-
+    
     fetch(baseApi + '/' + editingUser.id ,reqParams)
         .then(res=>{
-            //console.log(res);
 
             refreshItems();
             showSection('sectionList');   
@@ -238,13 +185,8 @@ function editUser(id){
     showSection('sectionEdit');   
 }
 
-
-
-
 function renderTr(user){
     let jsCall = `editUser(${user.id})`;
-    // jsCall = editProduct(18)
-    // jsCall = editProduct(19)
     let template = `<tr>
                         <td>${user.id}</td>
                         <td>${user.namn}</td>
@@ -254,25 +196,15 @@ function renderTr(user){
                         <td><a href="#" onclick="${jsCall}">EDIT</a></td>
                     </tr>`
     userTableBody.innerHTML = userTableBody.innerHTML + template;
-} 
-// 
+}
 
 function refreshItems(){
-
-    // fetch('https://hockeyplayers.systementor.se/stefan/player')
-    // .then(response=>response.json())
-    // .then(array=>{
-    //     //json -> items
-    //     console.log(array)
-    // });
-
     items = [];
     userTableBody.innerHTML = '';
 
     fetch(baseApi)
         .then(response=>response.json())
         .then(array=>{
-            //json -> items
             console.log(array)
             array.forEach(user=>{
                 u = new User(user.id,
@@ -286,26 +218,9 @@ function refreshItems(){
                 renderTr(item);
             });
     })
-
 }
 
 let items = [];
 refreshItems();
 
-
-//Loopa den
-// för varje skapa tr, för varje skapa td:s 
-//lägga in den nya tr:n som ett barn till  productTableBody
-
-  
-
 showSection('sectionList');
-
-// 2. funktion showSection
-// 3. events = händelsestyrd programmering
-//      vid klick på länk -> showSection
-// 4. arrayer med strängar
-// 5. foreach!
-// 6. classes - Product 
-//      samt new:a in i array
-// 7. 
